@@ -1,4 +1,4 @@
-#include "qpasswordkeeper.h"
+#include "keeper/password.h"
 
 #define DEBUG3
 
@@ -7,7 +7,7 @@ QPasswordKeeper::QPasswordKeeper(QObject *parent) :
 {
     DataPasswords.clear();
     Password = "";
-    FilePath = "";
+    LastFilePath = "";
 }
 
 
@@ -212,7 +212,7 @@ void QPasswordKeeper::itemActivated(QTreeWidgetItem *item, int column)
 
     int RootId = QVariant(item->data(0, Qt::UserRole)).toInt();
     if (GetRoot(RootId) == item->text(0)) {
-        exit(0);
+        return ;
     }
     if ((item->childCount() == 0) && (column == 0)) {
         RootId = QVariant(item->parent()->data(0, Qt::UserRole)).toInt();
@@ -229,6 +229,7 @@ void QPasswordKeeper::itemActivated(QTreeWidgetItem *item, int column)
 void QPasswordKeeper::SaveToFile(QString FileName)
 {
     QFile file(FileName);
+    LastFilePath = FileName;
     if (!file.open(QIODevice::WriteOnly))
     {
         qDebug() << ("Not open ") << FileName;
@@ -246,21 +247,19 @@ void QPasswordKeeper::SaveToFile(QString FileName)
             out << DataPasswords[i].Items[j].ID;
             out << DataPasswords[i].Items[j].Description;
             out << DataPasswords[i].Items[j].Password;
-//******************************************************************************//
-//                                                                              //
-// Тут надо бы, шифровать пароль, ну или целиком файл                           //
-//                                                                              //
-//******************************************************************************//
+            //******************************************************************************
+                #pragma message WARN("Тут надо бы, шифровать пароль, ну или целиком файл")
+            //******************************************************************************
+
         }
     }
     file.close();
-    FilePath = FileName;
 }
 
 void QPasswordKeeper::SaveToFile()
 {
-    if (FilePath.isEmpty()) {
-        SaveToFile(FilePath);
+    if (!LastFilePath.isEmpty()) {
+        SaveToFile(LastFilePath);
     }
 }
 
@@ -272,7 +271,8 @@ void QPasswordKeeper::LoadFromFile(QString FileName)
     {
         qDebug() << ("Not open ") << FileName;
         return ;
-    }
+    }    
+    LastFilePath = FileName;
     QDataStream in(&file);
     Root hRoot;
     Node hNode;
@@ -288,11 +288,10 @@ void QPasswordKeeper::LoadFromFile(QString FileName)
         for (int j = 0; j < FileChildCount; ++j)
         {
 
-//******************************************************************************//
-//                                                                              //
-// Тут надо бы, по идеи расшифровать пароль, ну или целиком файл                //
-//                                                                              //
-//******************************************************************************//
+//******************************************************************************
+#pragma message WARN("Тут надо бы, по идеи расшифровать пароль, ну или целиком файл")
+//******************************************************************************
+
             in >> hNode.ID;
             in >> hNode.Description;
             in >> hNode.Password;
@@ -301,7 +300,6 @@ void QPasswordKeeper::LoadFromFile(QString FileName)
 //        QMessageBox::information(0, QString::fromUtf8("Тест класса"), hRoot.Name, QMessageBox::Ok | QMessageBox::Cancel);
     }
     file.close();
-    FilePath = FileName;
 }
 
 // Test

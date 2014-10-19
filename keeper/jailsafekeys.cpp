@@ -1,4 +1,4 @@
-#include "qjailsafekeys.h"
+#include "keeper/jailsafekeys.h"
 
 QJailSafeKeys::QJailSafeKeys(QObject *parent) :
     QObject(parent)
@@ -26,7 +26,9 @@ int QJailSafeKeys::ReadFile(QString FileName, char *Buffer, int SizeToRead)
 
 void QJailSafeKeys::LoadFromFile(QString FileName, QString Key)
 {
-
+    //******************************************************************************
+        #pragma message WARN("Пустой метод")
+    //******************************************************************************
 }
 
 void QJailSafeKeys::Encrypt(const unsigned char *FromBuf, long FromBufLen,
@@ -55,7 +57,9 @@ void QJailSafeKeys::Decrypt(const unsigned char *FromBuf, long FromBufLen,
 
 void QJailSafeKeys::SaveToFile(QString FileName, QString Key)
 {
-
+    //******************************************************************************
+        #pragma message WARN("Пустой метод")
+    //******************************************************************************
 }
 
 void QJailSafeKeys::WriteRootItem(int RootIndex, QString Description)
@@ -66,7 +70,9 @@ void QJailSafeKeys::WriteRootItem(int RootIndex, QString Description)
 
 void QJailSafeKeys::WriteChildItem(int RootIndex, int ChildIndex, QString Password, QString Description)
 {
-
+    //******************************************************************************
+        #pragma message WARN("Пустой метод")
+    //******************************************************************************
 }
 
 void QJailSafeKeys::Test()

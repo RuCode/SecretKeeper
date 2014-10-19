@@ -32,7 +32,7 @@ private:
     };
 
     QVector<Root> DataPasswords;
-    QString FilePath;
+    QString LastFilePath;
     int RootCountItems();
     int ChildCountItems(int RootIndex);
 

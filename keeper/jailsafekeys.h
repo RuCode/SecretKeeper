@@ -10,6 +10,11 @@
 #include <QMessageBox>
 #include <openssl/blowfish.h>
 #include <QDebug>
+#include "_warning.h"
+
+//******************************************************************************
+    #pragma message WARN("Херовый класс, надо бы его переписать")
+//******************************************************************************
 
 #define BUFSIZE 1024
 #define KEY_SIZE 16
