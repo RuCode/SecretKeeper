@@ -57,4 +57,5 @@ RESOURCES += \
 
 OTHER_FILES += \
     LICENSE \
-    README.md
+    README.md \
+    index.html
