@@ -13,6 +13,9 @@ MainWindow::MainWindow(QWidget *parent) :
     if (!config.JailPath().isEmpty()) {
         openJailFromFile(config.JailPath());
     }
+    ui->treeWidget->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui->treeWidget, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(on_treeWidget_customContextMenuRequested(QPoint)));
     message(tr("Инициализация выполнена успешно"));
 }
 
@@ -348,11 +351,6 @@ void MainWindow::on_lineEdit_Passwd_editingFinished()
     updateHashes();
 }
 
-void MainWindow::on_actionNew_jail_triggered()
-{
-    createJail();
-}
-
 void MainWindow::on_actionOpen_triggered()
 {
     openJail();
@@ -460,4 +458,33 @@ void MainWindow::on_actionAbout_triggered()
 void MainWindow::on_actionSendEmail_triggered()
 {
     QDesktopServices::openUrl(tr("mailto:i.rcode@yandex.ru?subject=Bug in SecretKeeper"));
+}
+
+void MainWindow::on_treeWidget_customContextMenuRequested(const QPoint &pos)
+{
+    QMenu *menu=new QMenu(this);
+
+    bool isSelected = (ui->treeWidget->selectedItems().count() > 0);
+    if (isSelected) {
+        ui->treeWidget->itemDoubleClicked(ui->treeWidget->selectedItems().first(), 0);
+    }
+    menu->addAction(QString("Создать раздел"), this,
+                    SLOT(on_actionNewRoot_triggered()))->setEnabled(isOpenJail);
+    menu->addSeparator();
+    menu->addAction(QString("Создать запись"), this,
+                    SLOT(on_actionNewChild_triggered()))->setEnabled(isSelected && isOpenJail);
+    menu->addAction(QString("Сохранить"),this,
+                    SLOT(on_actionSaveChild_triggered()))->setEnabled(isSelected && isOpenJail);
+    menu->addAction(QString("Удалить"),this,
+                    SLOT(on_actionDeleteItem_triggered()))->setEnabled(isSelected && isOpenJail);
+    menu->addSeparator();
+    menu->addAction(QString("Копировать в буфер обмена"), this,
+                    SLOT(on_actionCopyToClipbrd_triggered()))->setEnabled(isSelected && isOpenJail);
+
+    menu->popup(ui->treeWidget->viewport()->mapToGlobal(pos));
+}
+
+void MainWindow::on_actionNewjail_triggered()
+{
+    createJail();
 }

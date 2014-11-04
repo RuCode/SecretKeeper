@@ -75,8 +75,6 @@ private slots:
 
     void on_actionOpen_triggered();
 
-    void on_actionNew_jail_triggered();
-
     void on_actionSave_triggered();
 
     void on_actionSave_as_triggered();
@@ -110,6 +108,10 @@ private slots:
     void on_actionAbout_triggered();
 
     void on_actionSendEmail_triggered();
+
+    void on_treeWidget_customContextMenuRequested(const QPoint &pos);
+
+    void on_actionNewjail_triggered();
 
 private:
     Ui::MainWindow *ui;
