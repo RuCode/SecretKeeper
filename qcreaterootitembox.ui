@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogRoot</class>
- <widget class="QDialog" name="DialogRoot">
+ <class>QCreateRootItemBox</class>
+ <widget class="QDialog" name="QCreateRootItemBox">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>377</width>
-    <height>83</height>
+    <width>400</width>
+    <height>56</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,7 +15,7 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="hLayout">
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
@@ -27,9 +27,12 @@
       <widget class="QLineEdit" name="lineEdit"/>
      </item>
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_Save">
        <property name="text">
         <string>Сохранить</string>
+       </property>
+       <property name="default">
+        <bool>true</bool>
        </property>
       </widget>
      </item>

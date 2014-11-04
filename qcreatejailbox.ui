@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>DialogCreateJail</class>
- <widget class="QDialog" name="DialogCreateJail">
+ <class>QCreateJailBox</class>
+ <widget class="QDialog" name="QCreateJailBox">
   <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>424</width>
-    <height>246</height>
+    <width>457</width>
+    <height>277</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -15,61 +15,101 @@
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2">
+    <layout class="QVBoxLayout" name="vLayout_Box">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
+      <layout class="QVBoxLayout" name="vLayoutTop">
        <item>
-        <widget class="QLabel" name="label">
+        <widget class="QLabel" name="label_Pass">
          <property name="text">
           <string>Введите пароль:</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <layout class="QHBoxLayout" name="hLayout_Pass">
          <item>
-          <widget class="QLineEdit" name="lineEdit_PassFirst"/>
+          <widget class="QLineEdit" name="lineEdit_PassFirst">
+           <property name="echoMode">
+            <enum>QLineEdit::Password</enum>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_Gen">
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
-            <string>...</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="res.qrc">
+             <normaloff>:/image/image/lock.png</normaloff>:/image/image/lock.png</iconset>
+           </property>
+           <property name="iconSize">
+            <size>
+             <width>16</width>
+             <height>16</height>
+            </size>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_hide">
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Х</string>
+            <string/>
+           </property>
+           <property name="icon">
+            <iconset resource="res.qrc">
+             <normaloff>:/image/image/visible.png</normaloff>:/image/image/visible.png</iconset>
            </property>
           </widget>
          </item>
         </layout>
        </item>
        <item>
-        <widget class="QLabel" name="label_2">
+        <widget class="QLabel" name="label_RePass">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Повторите пароль:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="lineEdit_PassLast"/>
+        <widget class="QLineEdit" name="lineEdit_PassLast">
+         <property name="echoMode">
+          <enum>QLineEdit::Password</enum>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_3">
+        <widget class="QLabel" name="label_Path">
          <property name="text">
           <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Путь к хранилищу:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
+        <layout class="QHBoxLayout" name="hLayout">
          <item>
           <widget class="QLineEdit" name="lineEdit_Path"/>
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_Path">
+           <property name="maximumSize">
+            <size>
+             <width>32</width>
+             <height>16777215</height>
+            </size>
+           </property>
            <property name="text">
             <string>...</string>
            </property>
@@ -100,7 +140,7 @@
       </spacer>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="hLayoutBtm">
        <item>
         <spacer name="horizontalSpacer">
          <property name="orientation">
@@ -126,6 +166,9 @@
          <property name="text">
           <string>Сохранить</string>
          </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -134,6 +177,19 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <tabstops>
+  <tabstop>lineEdit_PassFirst</tabstop>
+  <tabstop>pushButton_Gen</tabstop>
+  <tabstop>pushButton_hide</tabstop>
+  <tabstop>lineEdit_PassLast</tabstop>
+  <tabstop>lineEdit_Path</tabstop>
+  <tabstop>pushButton_Path</tabstop>
+  <tabstop>checkBox_AutoOpen</tabstop>
+  <tabstop>pushButton_Cancel</tabstop>
+  <tabstop>pushButton_Save</tabstop>
+ </tabstops>
+ <resources>
+  <include location="res.qrc"/>
+ </resources>
  <connections/>
 </ui>

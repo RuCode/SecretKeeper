@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/image">
+        <file>image/visible.png</file>
+        <file>image/lock.png</file>
+    </qresource>
+    <qresource prefix="/image/window">
+        <file>image/main.png</file>
+    </qresource>
+</RCC>
