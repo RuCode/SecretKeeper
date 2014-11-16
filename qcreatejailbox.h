@@ -1,6 +1,7 @@
 #ifndef QCREATEJAILBOX_H
 #define QCREATEJAILBOX_H
 
+#include <QStandardPaths>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QDialog>

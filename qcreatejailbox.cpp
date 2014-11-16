@@ -7,7 +7,8 @@ QCreateJailBox::QCreateJailBox(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->lineEdit_Path->setText(
-                    QApplication::applicationDirPath()+QDir::separator()+QString("main.jpk")
+                    QStandardPaths::writableLocation(QStandardPaths::DataLocation)+'/'
+                    /*QDir::separator()*/+QString("main.jpk")
                 );
     resultBox = rbError;
     this->setWindowTitle(tr("Создание хранилища"));

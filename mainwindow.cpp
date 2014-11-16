@@ -5,6 +5,9 @@ MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
+    QCoreApplication::setOrganizationName(QString("RuCode"));
+    QCoreApplication::setOrganizationDomain(QString("GitHub.Com//RuCode"));
+    QCoreApplication::setApplicationName(QString("SecretKeeper"));
     ui->setupUi(this);
     isRootKeyOpen = false;
     isOpenJail = false;
@@ -48,7 +51,9 @@ void MainWindow::message(QString text)
 
 void MainWindow::questionOpen()
 {
-    qDebug() << "QuestionOpen()";
+    #ifdef DBG_OUT
+        qDebug() << "QuestionOpen()";
+    #endif
     int ResDlg = QMessageBox::question(this, tr("Вопрос"), tr("Нет открытого хранилища, открыть?"),
                                        QMessageBox::Yes | QMessageBox::No);
     if (ResDlg == QMessageBox::Yes)
@@ -169,7 +174,9 @@ QString MainWindow::getPassword()
 
 void MainWindow::createJail()
 {
-    qDebug() << "CreateJail()";
+    #ifdef DBG_OUT
+        qDebug() << "CreateJail()";
+    #endif
     if (isOpenJail) {
         saveJail();
         ui->treeWidget->CloseAll();
@@ -187,9 +194,11 @@ void MainWindow::createJail()
         }
         isOpenJail = true;
         ui->treeWidget->ClearAll();
-        qDebug() << CreateJailDlg.currentPassword;
-        ui->treeWidget->SetPassword(CreateJailDlg.currentPassword);
-        ui->treeWidget->SaveToFile(CreateJailDlg.pathToJail);
+        #ifdef DBG_OUT
+            qDebug() << CreateJailDlg.currentPassword;
+        #endif
+        ui->treeWidget->SetPassword(CreateJailDlg.currentPassword.trimmed());
+        ui->treeWidget->SaveToFile(CreateJailDlg.pathToJail.trimmed());
         if (CreateJailDlg.isOpenJailAuto) {
             config.setJailPath(CreateJailDlg.pathToJail);
         }
@@ -208,14 +217,18 @@ void MainWindow::openJailFromFile(QString filePath)
         disabledControlsAndMenu();
         isOpenJail = false;
     }
-    qDebug() << "OpenJailFromFile()";
+    #ifdef DBG_OUT
+        qDebug() << "OpenJailFromFile()";
+    #endif
     QString DbgPas = getPassword();
     if (DbgPas.isEmpty()) {
         return;
     }
-    ui->treeWidget->SetPassword(DbgPas);
-    qDebug() << DbgPas;
-    if (ui->treeWidget->LoadFromFile(filePath)) {
+    ui->treeWidget->SetPassword(DbgPas.trimmed());
+    #ifdef DBG_OUT
+        qDebug() << DbgPas;
+    #endif
+    if (ui->treeWidget->LoadFromFile(filePath.trimmed())) {
         isOpenJail = true;
         enabledControlsAndMenu();
         disabledRightControls();
@@ -237,7 +250,9 @@ void MainWindow::openJail()
         ui->treeWidget->CloseAll();
         disabledControlsAndMenu();
     }
-    qDebug() << "OpenJail()";
+    #ifdef DBG_OUT
+        qDebug() << "OpenJail()";
+    #endif
     QStringList fileNames;
     QFileDialog dialog;
     QString filePath;
@@ -256,14 +271,18 @@ void MainWindow::openJail()
 
 void MainWindow::saveJail()
 {
-    qDebug() << "SaveJail()";
+    #ifdef DBG_OUT
+        qDebug() << "SaveJail()";
+    #endif
     ui->treeWidget->SaveToFile();
     message(tr("Сохранено..."));
 }
 
 void MainWindow::saveAsJail()
 {
-    qDebug() << "SaveAsJail()";
+    #ifdef DBG_OUT
+        qDebug() << "SaveAsJail()";
+    #endif
     QFileDialog dialog;
     dialog.setNameFilter(tr("Файлы хранилища (*.jpk)"));
     QString fileName = dialog.getSaveFileName();
@@ -272,12 +291,16 @@ void MainWindow::saveAsJail()
         ui->treeWidget->SaveToFile(fileName);
         isOpenJail = true;
         message(tr("Сохранено..."));
+    } else {
+        message(tr("Не сохранено..."));
     }
 }
 
 void MainWindow::newRoot()
 {
-    qDebug() << "NewRoot()";
+    #ifdef DBG_OUT
+        qDebug() << "NewRoot()";
+    #endif
     QCreateRootItemBox RootInputDlg;
     RootInputDlg.exec();
     if (RootInputDlg.resultBox == rbOk) {
@@ -289,9 +312,13 @@ void MainWindow::newRoot()
 
 void MainWindow::newChild()
 {
-    qDebug() << "NewChild()";
+    #ifdef DBG_OUT
+        qDebug() << "NewChild()";
+    #endif
     if (ui->treeWidget->selectedItems().count() > 0) {
-        qDebug() << "ChildInputDlg.resultBox == rbOk";
+        #ifdef DBG_OUT
+            qDebug() << "ChildInputDlg.resultBox == rbOk";
+        #endif
         QCreateChildItemBox ChildInputDlg;
         ChildInputDlg.exec();
         if (ChildInputDlg.resultBox == rbOk) {
@@ -315,16 +342,14 @@ void MainWindow::deleteItem()
     }
 }
 
-/***************************************************************************************************
- * Тригеры и слоты
- **************************************************************************************************/
-
-void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
+void MainWindow::itemSelected(QTreeWidgetItem *item, int column)
 {
     clearSelection();
 
     if (column != 0) {
-        qDebug() << "Error column in MainWindow::on_treeWidget_itemDoubleClicked";
+        #ifdef DBG_OUT
+            qDebug() << "Error column in MainWindow::on_treeWidget_itemDoubleClicked";
+        #endif
         return ;
     }
     if (QVariant(item->text(COLUMN_CHILD)).toInt() == INVALID_VALUE) {
@@ -339,6 +364,15 @@ void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int colu
         updateHashes();
     }
     ui->treeWidget->SaveSelect(item);
+}
+
+/***************************************************************************************************
+ * Тригеры и слоты
+ **************************************************************************************************/
+
+void MainWindow::on_treeWidget_itemDoubleClicked(QTreeWidgetItem *item, int column)
+{
+    itemSelected(item, column);
 }
 
 void MainWindow::on_pushButton_Save_clicked()
@@ -487,4 +521,14 @@ void MainWindow::on_treeWidget_customContextMenuRequested(const QPoint &pos)
 void MainWindow::on_actionNewjail_triggered()
 {
     createJail();
+}
+
+void MainWindow::on_treeWidget_itemActivated(QTreeWidgetItem *item, int column)
+{
+    itemSelected(item, column);
+}
+
+void MainWindow::on_treeWidget_itemClicked(QTreeWidgetItem *item, int column)
+{
+    itemSelected(item, column);
 }

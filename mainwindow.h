@@ -9,6 +9,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QTreeWidgetItem>
+#include <QCoreApplication>
 #include <QDesktopServices>
 #include <QCryptographicHash>
 
@@ -55,6 +56,7 @@ private:
     void updateItemFromRightPanel();
     QString getPassword();
     void openJailFromFile(QString filePath);
+    void itemSelected(QTreeWidgetItem *item, int column);
     // Меню файл
     void createJail();
     void openJail();
@@ -112,6 +114,10 @@ private slots:
     void on_treeWidget_customContextMenuRequested(const QPoint &pos);
 
     void on_actionNewjail_triggered();
+
+    void on_treeWidget_itemActivated(QTreeWidgetItem *item, int column);
+
+    void on_treeWidget_itemClicked(QTreeWidgetItem *item, int column);
 
 private:
     Ui::MainWindow *ui;

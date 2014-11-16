@@ -9,8 +9,15 @@ CONFIG   += c++11
 
 #openssl
 win32 {
-    INCLUDEPATH += c:/OpenSSL-Win32/include
-    LIBS += -Lc:/OpenSSL-Win32/bin -llibeay32
+    LIBS += -lws2_32
+
+    INCLUDEPATH += C:/OpenSSL-Win32/include
+    DEPENDPATH += C:/OpenSSL-Win32/include
+
+    LIBS += -LC:/OpenSSL-Win32/lib/ -llibeay32
+    LIBS += -LC:/OpenSSL-Win32/lib/ -lssleay32
+
+    RC_FILE = app.rc
 }
 linux|macx {
     LIBS += -lcrypto
@@ -58,4 +65,5 @@ RESOURCES += \
 OTHER_FILES += \
     LICENSE \
     README.md \
-    index.html
+    index.html \
+    C:/OpenSSL-Win32/include/openssl/aes.h.lnk

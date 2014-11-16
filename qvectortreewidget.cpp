@@ -15,18 +15,26 @@ bool QVectorTreeWidget::rangeCheck(int rootIndex, int childIndex)
 // Проверка границ qVector, false - ошибка, true - успех
 {
     if ((rootIndex < 0) || (rootIndex > RootCountItems())) {
-        qDebug() << "Range check error rootIndex";
+        #ifdef DBG_OUT
+            qDebug() << "Range check error rootIndex";
+        #endif
         return false;
     }
     if (childIndex == INVALID_VALUE) {
-        qDebug() << "Range check succes... But childIndex is invalid, maybe root item";
+        #ifdef DBG_OUT
+            qDebug() << "Range check succes... But childIndex is invalid, maybe root item";
+        #endif
         return true;
     }
     if ((childIndex < 0) || (childIndex > ChildCountItems(rootIndex))) {
-        qDebug() << "Range check error childIndex";
+        #ifdef DBG_OUT
+            qDebug() << "Range check error childIndex";
+        #endif
         return false;
     }
-    qDebug() << "Range check succes...";
+    #ifdef DBG_OUT
+        qDebug() << "Range check succes...";
+    #endif
     return true;
 }
 
@@ -45,8 +53,9 @@ int QVectorTreeWidget::ChildCountItems(int rootIndex)
 int QVectorTreeWidget::NewRoot(const QString text)
 // Создание раздела
 {
-    qDebug() << "NewRoot::Default rootCount = " << RootCountItems();
-
+    #ifdef DBG_OUT
+        qDebug() << "NewRoot::Default rootCount = " << RootCountItems();
+    #endif
     Root newRootItem;
     newRootItem.id = RootCountItems() + INCREMENT_VALUE;
     newRootItem.name = text;
@@ -60,8 +69,9 @@ int QVectorTreeWidget::NewRoot(const QString text)
     newRootItem.item->setText(COLUMN_PASSWORD, tr(""));
     #endif
     dataPasswords.append(newRootItem);
-
-    qDebug() << "NewRoot::Current rootCount = " << RootCountItems();
+    #ifdef DBG_OUT
+        qDebug() << "NewRoot::Current rootCount = " << RootCountItems();
+    #endif
     return RootCountItems();
 }
 
@@ -76,8 +86,10 @@ int QVectorTreeWidget::NewChild(const QString text, QString data)
 int QVectorTreeWidget::NewChild(int rootId, const QString text, QString data)
 // Создание элемента
 {
-    qDebug() << "NewChild::Current rootId = " << rootId;
-    qDebug() << "NewChild::Current childId = " << ChildCountItems(rootId);
+    #ifdef DBG_OUT
+        qDebug() << "NewChild::Current rootId = " << rootId;
+        qDebug() << "NewChild::Current childId = " << ChildCountItems(rootId);
+    #endif
     if (!rangeCheck(rootId)) {
         return INVALID_VALUE;
     }
@@ -95,8 +107,10 @@ int QVectorTreeWidget::NewChild(int rootId, const QString text, QString data)
     #endif
     dataPasswords[rootId].items.append(newNodeItem);
 
-    qDebug() << "NewChild::Current rootId = " << rootId;
-    qDebug() << "NewChild::Current childId = " << newNodeItem.id;
+    #ifdef DBG_OUT
+        qDebug() << "NewChild::Current rootId = " << rootId;
+        qDebug() << "NewChild::Current childId = " << newNodeItem.id;
+    #endif
     return ChildCountItems(rootId);
 }
 
@@ -234,14 +248,18 @@ void QVectorTreeWidget::SaveToFile()
 void QVectorTreeWidget::SaveToFile(const QString FileName)
 // Сохранение в файл всех записей
 {
-    qDebug() << "SaveToFile with " << password;
+    #ifdef DBG_OUT
+        qDebug() << "SaveToFile with " << password;
+    #endif
     QByteArray passArray;
     passArray+= password;
     QFile encryptedFile(FileName);
     CryptFileDevice cryptFileDevice(&encryptedFile, passArray, "any salt");
     if (!cryptFileDevice.open(QIODevice::WriteOnly))
     {
-        qDebug() << ("Not open ") << FileName;
+        #ifdef DBG_OUT
+            qDebug() << ("Not open ") << FileName;
+        #endif
         return ;
     }
     QDataStream out(&cryptFileDevice);
@@ -258,6 +276,7 @@ void QVectorTreeWidget::SaveToFile(const QString FileName)
             out << dataPasswords[RootCounter].items[ChildCounter].password;
         }
     }
+    lastFilePath = FileName;
     cryptFileDevice.close();
 }
 
@@ -266,14 +285,18 @@ bool QVectorTreeWidget::LoadFromFile(const QString fileName)
 {
     ClearAll();
 
-    qDebug() << "LoadFromFile with " << password;
+    #ifdef DBG_OUT
+        qDebug() << "LoadFromFile with " << password;
+    #endif
     QByteArray passArray;
     passArray+= password;
     QFile encryptedFile(fileName);
     CryptFileDevice cryptFileDevice(&encryptedFile, passArray, "any salt");
     if (!cryptFileDevice.open(QIODevice::ReadOnly))
     {
-        qDebug() << ("Not open ") << fileName;
+        #ifdef DBG_OUT
+            qDebug() << ("Not open ") << fileName;
+        #endif
         return false;
     }
     QDataStream in(&cryptFileDevice);

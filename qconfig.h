@@ -4,6 +4,7 @@
 #define CONF_NAME "config.jail"
 
 #include <QDir>
+#include <QDebug>
 #include <QObject>
 #include <QSettings>
 #include <QMessageBox>
