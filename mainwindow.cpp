@@ -220,6 +220,9 @@ void MainWindow::openJailFromFile(QString filePath)
     #ifdef DBG_OUT
         qDebug() << "OpenJailFromFile()";
     #endif
+    if (filePath.isEmpty()) {
+        return;
+    }
     QString DbgPas = getPassword();
     if (DbgPas.isEmpty()) {
         return;
